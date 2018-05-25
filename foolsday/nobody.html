@@ -1,0 +1,168 @@
+<html lang="zh-cn" class="no-js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="format-detection" content="telephone=no">
+<title>浙江电信</title>
+<link rel="stylesheet" type="text/css" href="../Public/Css/base.css">
+<link rel="stylesheet" type="text/css" href="../Public/Css/foolsday/foolsday.css">
+</head>
+<style type="text/css">
+html{font-size:50px};
+</style> 
+<script src="../Public/Js/jquery-1.10.2.min.js"></script>
+<script src="../Public/Js/foolsday/rem.js"></script>
+
+<script type="text/javascript">
+window.onload=function(){
+ var wh=$(window).height();
+ var wraph=$('.wrapbox').height();
+ 
+	$('.btnbox').css('position','fixed'); 
+	$('.btnbox').css('bottom','0'); 
+  
+}
+
+
+$(function(){
+	//愚人惊喜点击
+	$('.surprisebtn').click(function(){
+		showdemo($('#tk7'));
+	});
+	$('.fxbtn').click(function(){
+		$('.fxtk').show();
+	});
+	$('.fxtk').click(function(){
+		$('.fxtk').hide();
+	});
+	$('.knowbtn,.tmbg').click(function(event){
+		$('.tmbg').hide();
+	});
+	$(".tank").click(function (event) { 
+		event.stopPropagation();//阻止事件向上冒泡 
+	}); 
+			
+})
+
+//浮层显示
+function showdemo(obj){
+	$(".tmbg").hide();
+	obj.show();
+	var screenHeight = $(window).height();
+	var tankuangHeight =obj.find('.tank').height();
+	var topHeight =(screenHeight-tankuangHeight)/2;
+	obj.height(screenHeight);
+	obj.children().css('top',topHeight);
+}
+	
+</script>
+<body>
+<!--分享-->
+<div class="fxtk" id="fxshow2" style="position: fixed;display:none; z-index:999999;">
+	<div class="fxwraptk">
+       	<p> <img src="../Public/Images/foolsday/fx.png"></p>
+    </div>
+</div>
+<!--分享-->
+
+<!--愚人节快乐！-->
+<div class="tmbg" id="tk5" style="display:none;position:fixed">
+	<div class="tank">
+	<div class="tankif">
+    	<div class="tanknr">
+        	<img src="../Public/Images/foolsday/tkbg1.png" />
+        	<h3 style="bottom:0.35rem;">愚人节快乐！<br> 在这欢乐的日子里，<br>让我们把愚人精神发扬光大吧~ </h3>
+        </div>
+        <div class="tkbtn clearfix">
+            <a class="knowbtn"><img src="../Public/Images/foolsday/btn2.png" /></a>
+        </div>
+    </div>
+	</div>
+</div>
+<!--5元话费券-->
+<div class="tmbg" id="tk6" style="display:none;position:fixed">
+	<div class="tank">
+	<div class="tankif">
+    	<div class="tanknr">
+        	<img src="../Public/Images/foolsday/tkbg2.png" />
+        	<h3 >愚人节快乐！<br>恭喜小主获得5元话费券</h3>
+        </div>
+        <div class="tkbtn clearfix">
+            <a class="lqbtn"><img src="../Public/Images/foolsday/btn4.png" /></a>
+        </div>
+    </div>
+	</div>
+</div>
+<!--2元充值卡-->
+<div class="tmbg" id="tk7" style="display:none;position:fixed">
+	<div class="tank">
+	<div class="tankif">
+    	<div class="tanknr">
+        	<img src="../Public/Images/foolsday/tkbg4.png" />
+        	<h3 >愚人节快乐！<br>恭喜小主获得2元充值卡</h3>
+        </div>
+        <div class="tkbtn clearfix">
+            <a class="lqbtn"><img src="../Public/Images/foolsday/btn4.png" /></a>
+        </div>
+    </div>
+	</div>
+</div>
+<!--未关注-->
+<div class="tmbg" id="tk8" style="display:none;position:fixed">
+	<div class="tank">
+	<div class="tankif">
+    	<div class="tanknr">
+        	<img src="../Public/Images/foolsday/tkbg3.png" />
+        	<h3 style="bottom:1.35rem">您还未关注浙江电信公众号哦，<br>请关注后再点击惊喜吧~</h3>
+        </div>
+        <div class="tkbtn clearfix"  style="margin-top:-0.55rem;">
+            <a class="gzbtn"><img src="../Public/Images/foolsday/btn9.png" /></a>
+        </div>
+    </div>
+	</div>
+</div>
+<div class="wrapbox">
+   <div class="banner"><img src="../Public/Images/foolsday/banner1.png" /></div>
+   <div class="foolbg foolbg1">
+   		<div class="foolbox foolbox1" style="height:auto;">
+        	<ul class="ulfool clearfix">
+            	<li><span>我今天没刷牙</span><em class="truebtn"></em></li>
+                <li><span>我今天没刷牙</span><em class="falsebtn"></em></li>
+                <li><span>我今天没刷牙</span><em class="truebtn"></em></li>
+                <li><span>我今天没刷牙</span><em class="falsebtn"></em></li>
+            </ul>
+        </div>
+        <div class="txbox">
+        	<div class="txshow clearfix">
+            	<img src="../Public/Images/foolsday/tx.jpg" class="tximg" />
+            	<span>罗贝贝</span>
+            </div>
+            <div class="listfriend">
+            	<!--没有人猜-->
+            	<p  style="display:none;">还没有小伙伴来猜测你的真假话哦~<br>快去调戏一下小伙伴</p>
+                <!--有人猜-->
+                <div class="showlist">
+                	<div class="listban clearfix">
+                    	<img src="../Public/Images/foolsday/tx.jpg" class="tximg1" />
+            			<span><em>FENGXIAO</em>童鞋全部猜对啦，真爱无需多言！</span>
+                    </div>
+                    <div class="listban clearfix">
+                    	<img src="../Public/Images/foolsday/tx.jpg" class="tximg1" />
+            			<span><em>FENGXIAO</em>童鞋很巧妙的避开了所有正确答案，确定不是故意的？</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </div>
+   <div class="btnbox">
+   	 <div class="btnbg clearfix">
+      	 <!--无人猜中了-->
+     	 <a class="surprisebtn"><img src="../Public/Images/foolsday/btn7.png" /></a>
+         <a class="fxbtn"><img src="../Public/Images/foolsday/btn8.png" /></a>
+         <!--有人猜中了
+         <a class="surprisebtn"><img src="../Public/Images/foolsday/btn10.png" /></a>
+         <a href="index.html" class="morebtn"><img src="../Public/Images/foolsday/btn11.png" /></a>-->
+     </div>
+   </div>
+</div>
+</body>
+</html>

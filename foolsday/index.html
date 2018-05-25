@@ -1,0 +1,62 @@
+<html lang="zh-cn" class="no-js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="format-detection" content="telephone=no">
+<title>浙江电信</title>
+<link rel="stylesheet" type="text/css" href="../Public/Css/base.css">
+<link rel="stylesheet" type="text/css" href="../Public/Css/foolsday/foolsday.css">
+</head>
+<style type="text/css">
+html{font-size:50px}
+</style> 
+<script src="../Public/Js/jquery-1.10.2.min.js"></script>
+<script src="../Public/Js/foolsday/rem.js"></script>
+<script src="../Public/Js/foolsday/vue.js"></script>
+<script>
+    window.onload=function(){
+        var footsub=new Vue({
+            el:'.wrap',
+            data:{
+                bgimg:'../Public/Images/foolsday/banner.png',
+                beginbtn:'../Public/Images/foolsday/btn.png',
+                giftsrc:'../Public/Images/foolsday/rule1.png',
+                rulesrc:'../Public/Images/foolsday/rule2.png',
+                btnurl:'setfool.html',
+                gifturl:'gift.html',
+                ruleurl:'rule.html',
+                isshow:false
+
+            },
+            methods:{
+                btnclick:function(e){
+                    this.isshow=!this.isshow;
+                },
+                hideinfo:function(e){
+                    this.isshow=false;
+
+                },
+                zanclick:function(e){
+                    alert('yes');
+                }
+            }
+        });
+    }
+
+</script>
+<body>
+<div class="wrap" v-bind:style="{backgroundImage:'url('+ bgimg +')'}" @touchstart="hideinfo">
+   <footer>
+   	  <div class="footbox">
+      	 <a v-bind:href="btnurl" class="beginbtn"><img v-bind:src="beginbtn" /></a>
+         <div class="ruleshow clearfix">
+         	<a  class="gift" ><img v-bind:src="giftsrc" /></a>
+            <a  class="rule" @touchstart.stop.prevent="btnclick"><img v-bind:src="rulesrc" /></a>
+             <div class="noshow" v-show="isshow" style="position:absolute;top:-30%;wfidth:1.2rem;background:#ccc;height:0.6rem;line-height:0.6rem;">
+                 <p><span @touchstart.stop.prevent="zanclick" class="spbtn" style="ont-size:0.24rem;color:#fff;background:#4dff4a;width:0.8rem;display:block;">点赞</span></p>
+             </div>
+         </div>
+      </div>
+   </footer>
+</div>
+</body>
+</html>

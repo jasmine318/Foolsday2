@@ -1,0 +1,110 @@
+<html lang="zh-cn" class="no-js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="format-detection" content="telephone=no">
+<title>浙江电信</title>
+<link rel="stylesheet" type="text/css" href="../Public/Css/base.css">
+<link rel="stylesheet" type="text/css" href="../Public/Css/foolsday/foolsday.css">
+</head>
+<style type="text/css">
+html{font-size:50px};
+</style> 
+<script src="../Public/Js/jquery-1.10.2.min.js"></script>
+<script src="../Public/Js/foolsday/rem.js"></script>
+<script src="../Public/Js/foolsday/vue.js"></script>
+<script src="../Public/Js/foolsday/vue-resource.min.js"></script>
+
+<script type="text/javascript">
+window.onload=function() {
+    var myvue = new Vue({
+        el: '.wrapbox',
+        data: {
+            truelist: [],
+            makelist: JSON.parse(window.localStorage.getItem('mylist') || '[]')
+        },
+        created: function () {
+            this.drawing();
+        },
+        methods: {
+            drawing: function () {
+                var _sel = this;
+                for (i in _sel.makelist) {
+                    _sel.truelist.push({name: _sel.makelist[i]['name'], istrue: _sel.makelist[i]['isclick']});
+                }
+            },
+            shareinfo:function(){
+                $('.fxtk').show();
+            }
+        }
+    })
+}
+
+
+$(function(){
+    $('.fxtk').click(function(){
+        $(this).hide();
+    });
+
+	$('.knowbtn,.tmbg').click(function(event){
+		$('.tmbg').hide();
+	});
+	$(".tank").click(function (event) { 
+		event.stopPropagation();//阻止事件向上冒泡 
+	}); 
+			
+})
+
+//浮层显示
+function showdemo(obj){
+	$(".tmbg").hide();
+	obj.show();
+	var screenHeight = $(window).height();
+	var tankuangHeight =obj.find('.tank').height();
+	var topHeight =(screenHeight-tankuangHeight)/2;
+	obj.height(screenHeight);
+	obj.children().css('top',topHeight);
+}
+	
+</script>
+<body>
+<!--分享-->
+<div class="fxtk" id="fxshow2" style="position: fixed;display:none; z-index:999999;">
+	<div class="fxwraptk">
+       	<p> <img src="../Public/Images/foolsday/fx.png"></p>
+    </div>
+</div>
+<!--分享-->
+
+<!--快告诉我这些话是真是假~-->
+<div class="tmbg" id="tk4" style="display:none;position:fixed">
+	<div class="tank">
+	<div class="tankif">
+    	<div class="tanknr">
+        	<img src="../Public/Images/foolsday/tkbg1.png" />
+        	<h3>快告诉我这些话是真是假~</h3>
+        </div>
+        <div class="tkbtn clearfix">
+            <a class="knowbtn"><img src="../Public/Images/foolsday/btn2.png" /></a>
+        </div>
+    </div>
+	</div>
+</div>
+<div class="wrapbox">
+   <div class="banner" style="padding-top:1.7rem;padding-bottom:0.4rem"><img src="../Public/Images/foolsday/fooltip3.png" /></div>
+   <div class="foolbg">
+   		<div class="foolbox" style="height:auto;">
+        	<ul class="ulfool clearfix">
+                <li v-for="(item,index) in truelist" >
+                    <span>{{item.name}}</span>
+                    <!--<em v-bind:class="{truebtn:item.istrue==true,falsebtn:item.istrue==false}"></em>-->
+                    <em v-bind:class="[item.istrue ? 'truebtn':'falsebtn']"></em>
+                </li>
+            </ul>
+        </div>
+   </div>
+   <div class="setbox">
+   		<a class="fxbtn" v-on:click="shareinfo()"><img src="../Public/Images/foolsday/btn6.png" /></a>
+   </div>
+</div>
+</body>
+</html>

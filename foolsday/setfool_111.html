@@ -1,0 +1,181 @@
+<html lang="zh-cn" class="no-js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="format-detection" content="telephone=no">
+<title>浙江电信</title>
+<link rel="stylesheet" type="text/css" href="../Public/Css/base.css">
+<link rel="stylesheet" type="text/css" href="../Public/Css/foolsday/foolsday.css">
+</head>
+<style type="text/css">
+html{font-size:50px};
+</style> 
+<script src="../Public/Js/jquery-1.10.2.min.js"></script>
+<script src="../Public/Js/foolsday/rem.js"></script>
+
+<script type="text/javascript">
+window.onload=function(){
+ var wh=$(window).height();
+ var wraph=$('.wrapbox').height();
+ if(wh>wraph){
+	$('.btnbox').css('position','fixed'); 
+	$('.btnbox').css('bottom','0'); 
+  }else{
+  	$('.btnbox').css('margin-top','0.2rem'); 
+  }
+}
+$(function(){
+	var alength=0;
+	$('.choosebox span').each(function(index) {
+		$(this).click(function(){
+			if(alength<5){
+				var spnr=$(this).text();
+				var ahtml='<li><span>'+ spnr +'</span><em class="closebtn"></em></li>';
+				$('.choosebox span').removeClass('choose');
+				$(this).addClass('choose');
+				$('.ulfool').append(ahtml);
+				alength+=1;
+			}else{
+				showdemo($('#tk3'));
+			}
+			$('.ulfool .closebtn').each(function(index) {
+				$(this).bind("click",function(){
+					var ulnum=$(".ulfool li").length;
+					$(this).parent().remove();
+					alength=ulnum;
+				});
+			});
+		});
+		
+	});
+	//输入内容
+	$('.surebtn').click(function(){
+		if(alength<5){
+			var inpnr=$('.inputbox input').val();
+			var inlength=$('.inputbox input').val().length;
+			if(inpnr!=="" && inlength<11){
+				var ahtml='<li><span>'+ inpnr +'</span><em class="closebtn"></em></li>';
+				$('.ulfool').append(ahtml);
+				alength+=1;
+			}else{
+				showdemo($('#tk1'));
+			}
+		}else{
+			showdemo($('#tk3'));
+		}
+		$('.ulfool .closebtn').each(function(index) {
+			$(this).bind("click",function(){
+				var ulfool=$(".ulfool li").length;
+				$(this).parent().remove();
+				alength=ulfool;
+			});
+		});
+	});
+	//设置真心话
+	$('.setbtn').click(function(){
+		if($(".ulfool li").length!==0){
+			var setcont='';
+			for(var i=0;i<$(".ulfool li").length;i++){
+				var nextname=$(".ulfool li").eq(i).find('span').text();
+				setcont=setcont+'|'+nextname;
+			}
+			//setcont.substr(1);
+			//alert(setcont.substr(1));
+			//encodeURI()编码
+			var msg=encodeURI(setcont.substr(1));
+			//console.log(msg);
+			window.location.href="secret.html?msg="+msg;
+		}else{
+			showdemo($('#tk2'));	
+		}
+	});
+	
+	$('.knowbtn,.tmbg').click(function(event){
+		$('.tmbg').hide();
+	});
+	$(".tank").click(function (event) { 
+			event.stopPropagation();//阻止事件向上冒泡 
+	}); 
+			
+  })
+//浮层显示
+function showdemo(obj){
+	$(".tmbg").hide();
+	obj.show();
+	var screenHeight = $(window).height();
+	var tankuangHeight =obj.find('.tank').height();
+	var topHeight =(screenHeight-tankuangHeight)/2;
+	obj.height(screenHeight);
+	obj.children().css('top',topHeight);
+}
+	
+</script>
+<body>
+<!--一句最多只能写10个字哟~-->
+<div class="tmbg" id="tk1" style="display:none;position:fixed">
+	<div class="tank">
+	<div class="tankif">
+    	<div class="tanknr">
+        	<img src="../Public/Images/foolsday/tkbg1.png" />
+        	<h3>一句最多只能写10个字哟~</h3>
+        </div>
+        <div class="tkbtn clearfix">
+            <a class="knowbtn"><img src="../Public/Images/foolsday/btn2.png" /></a>
+        </div>
+    </div>
+	</div>
+</div>
+<!--您还没有写下真心话哦~-->
+<div class="tmbg" id="tk2" style="display:none;position:fixed">
+	<div class="tank">
+	<div class="tankif">
+    	<div class="tanknr">
+        	<img src="../Public/Images/foolsday/tkbg1.png" />
+        	<h3>您还没有写下真心话哦~</h3>
+        </div>
+        <div class="tkbtn clearfix">
+            <a class="knowbtn"><img src="../Public/Images/foolsday/btn2.png" /></a>
+        </div>
+    </div>
+	</div>
+</div>
+<!--最多只能写5个小秘密哦~~-->
+<div class="tmbg" id="tk3" style="display:none;position:fixed">
+	<div class="tank">
+	<div class="tankif">
+    	<div class="tanknr">
+        	<img src="../Public/Images/foolsday/tkbg1.png" />
+        	<h3>最多只能写5个小秘密哦~</h3>
+        </div>
+        <div class="tkbtn clearfix">
+            <a class="knowbtn"><img src="../Public/Images/foolsday/btn2.png" /></a>
+        </div>
+    </div>
+	</div>
+</div>
+<div class="wrapbox">
+   <div class="banner"><img src="../Public/Images/foolsday/fooltip.png" /></div>
+   <div class="foolbg">
+   		<div class="foolbox">
+        	<ul class="ulfool clearfix">
+            </ul>
+        </div>
+        <div class="inputbox clearfix">
+        	<input type="text" placeholder="朕自己写…（限10字以内哦）"  />
+            <a class="surebtn"></a>
+        </div>
+        <div class="choosebox clearfix">
+        	<span class="sp1">我今天没刷牙<em></em></span><span class="sp1">我唱歌真好听<em></em></span>
+            <span class="sp2">我喜欢朋友圈的一个人<em></em></span>
+            <span class="sp3">我怀孕了<em></em></span>
+            <span class="sp3">我要结婚了<em></em></span>
+            <span class="sp3">我爱吃香菜<em></em></span>
+        </div>
+   </div>
+   <div class="btnbox">
+   	 <div class="btnbg">
+     	 <a class="setbtn"><img src="../Public/Images/foolsday/btn1.png" /></a>
+     </div>
+   </div>
+</div>
+</body>
+</html>

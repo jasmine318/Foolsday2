@@ -1,0 +1,292 @@
+<html lang="zh-cn" class="no-js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="format-detection" content="telephone=no">
+<title>浙江电信</title>
+<link rel="stylesheet" type="text/css" href="../Public/Css/base.css">
+<link rel="stylesheet" type="text/css" href="../Public/Css/foolsday/foolsday.css">
+</head>
+<style type="text/css">
+html{font-size:50px};
+</style> 
+<script src="../Public/Js/jquery-1.10.2.min.js"></script>
+<script src="../Public/Js/foolsday/rem.js"></script>
+
+<script type="text/javascript">
+window.onload=function(){
+ var wh=$(window).height();
+ var wraph=$('.wrapbox').height();
+ if(wh>wraph){
+	$('.btnbox').css('position','fixed'); 
+	$('.btnbox').css('bottom','0'); 
+  }else{
+  	$('.btnbox').css('margin-top','0.2rem'); 
+  }
+}
+var alength=0;
+var setcont='';
+var msg;
+var simg='';
+$(function(){
+	$('.choosebox span').each(function(index) {
+		$(this).click(function(){
+			if(alength<5){
+				var spnr=$(this).text();
+				var ahtml='<li><span>'+ spnr +'</span><em class="closebtn"></em></li>';
+				$('.choosebox span').removeClass('choose');
+				$(this).addClass('choose');
+				$('.ulshow1').append(ahtml);
+				alength+=1;
+			}else{
+				showdemo($('#tk3'));
+			}
+			$('.ulshow1 .closebtn').each(function(index) {
+				$(this).bind("click",function(){
+					var ulnum=$(".ulshow1 li").length;
+					$(this).parent().remove();
+					alength=ulnum;
+				});
+			});
+		});
+		
+	});
+	//输入内容
+	$('.surebtn').click(function(){
+		if(alength<5){
+			var inpnr=$('.inputbox input').val();
+			var inlength=$('.inputbox input').val().length;
+			if(inpnr!=="" && inlength<11){
+				var ahtml='<li><span>'+ inpnr +'</span><em class="closebtn"></em></li>';
+				$('.ulshow1').append(ahtml);
+				alength+=1;
+			}else{
+				showdemo($('#tk1'));
+			}
+		}else{
+			showdemo($('#tk3'));
+		}
+		$('.ulfool .closebtn').each(function(index) {
+			$(this).bind("click",function(){
+				var ulfool=$(".ulfool li").length;
+				$(this).parent().remove();
+				alength=ulfool;
+			});
+		});
+	});
+	//设置真心话
+	$('.setbtn').click(function(){
+		if($(".ulshow1 li").length!==0){
+			for(var i=0;i<$(".ulshow1 li").length;i++){
+				var nextname=$(".ulshow1 li").eq(i).find('span').text();
+				setcont=setcont+'|'+nextname;
+			}
+			msg=setcont.substr(1);
+			$('.wrapbox').eq(0).hide();
+			$('.wrapbox').eq(1).show();
+			//console.log(msg);
+			var arr=msg.split("|"); //各个参数放到数组里
+			console.log(arr);
+			//获取选择的语句
+			for(var i=0;i < arr.length;i++){ 
+				var lista=arr[i];
+				var ulli='<li><span>'+ lista +'</span><em class="xzbtn"></em></li>';
+				$('.ulshow2').append(ulli);
+				//选择真话
+				$('.ulshow2 li').each(function(index) {
+					var anum=1;
+					$(this).click(function(){
+						if(anum){
+							$(this).addClass('having');
+							$(this).find('em').show();
+							anum=0;
+						}else{
+							$(this).removeClass('having');
+							$(this).find('em').hide();
+							anum=1;
+						}
+					 })
+				});
+		 } 
+			
+		}else{
+			showdemo($('#tk2'));	
+		}
+	});
+	//设置真假
+	$('.setbtn2').click(function(){
+			if(!$('.ulshow2 li').hasClass('having')){
+				showdemo($('#tk4'));
+			}else{
+				$('.ulshow2 li').each(function(index) {
+					var aa=$(this).find('span').text();
+						simg=simg+'|'+aa;
+					//alert(simg);
+					if($(this).hasClass('having')){
+						simg=simg+'*1';
+					}else{
+						simg=simg+'*0';
+					}
+				});
+				simg =simg.substr(1);
+				console.log(simg);
+				$('.wrapbox').eq(1).hide();
+				$('.wrapbox').eq(2).show();
+				var arrtrue=simg.split("|"); //各个参数放到数组里
+				console.log(arrtrue);
+				for(var i=0;i < arrtrue.length;i++){ 
+					var lista=arrtrue[i];
+					var simgaa=lista.split("*");
+					 console.log(simgaa[0]);
+					 if(simgaa[1]==1){
+						var ulli='<li class="having"><span>'+ simgaa[0] +'</span><em class="truebtn"></em></li>'; 
+					}else{
+						var ulli='<li><span>'+ simgaa[0] +'</span><em class="falsebtn"></em></li>'; 
+					}
+					
+					$('.ulfool').append(ulli);
+					
+			 } 
+			}
+	});
+	$('.fxbtn').click(function(){
+		$('.fxtk').show();
+	});
+	$('.fxtk').click(function(){
+		$('.fxtk').hide();
+	});
+	
+	$('.knowbtn,.tmbg').click(function(event){
+		$('.tmbg').hide();
+	});
+	$(".tank").click(function (event) { 
+			event.stopPropagation();//阻止事件向上冒泡 
+	}); 
+			
+  })
+//浮层显示
+function showdemo(obj){
+	$(".tmbg").hide();
+	obj.show();
+	var screenHeight = $(window).height();
+	var tankuangHeight =obj.find('.tank').height();
+	var topHeight =(screenHeight-tankuangHeight)/2;
+	obj.height(screenHeight);
+	obj.children().css('top',topHeight);
+}
+	
+</script>
+<body>
+<!--分享-->
+<div class="fxtk" id="fxshow2" style="position: fixed;display:none; z-index:999999;">
+	<div class="fxwraptk">
+       	<p> <img src="../Public/Images/foolsday/fx.png"></p>
+    </div>
+</div>
+<!--分享-->
+
+<!--一句最多只能写10个字哟~-->
+<div class="tmbg" id="tk1" style="display:none;position:fixed">
+	<div class="tank">
+	<div class="tankif">
+    	<div class="tanknr">
+        	<img src="../Public/Images/foolsday/tkbg1.png" />
+        	<h3>一句最多只能写10个字哟~</h3>
+        </div>
+        <div class="tkbtn clearfix">
+            <a class="knowbtn"><img src="../Public/Images/foolsday/btn2.png" /></a>
+        </div>
+    </div>
+	</div>
+</div>
+<!--您还没有写下真心话哦~-->
+<div class="tmbg" id="tk2" style="display:none;position:fixed">
+	<div class="tank">
+	<div class="tankif">
+    	<div class="tanknr">
+        	<img src="../Public/Images/foolsday/tkbg1.png" />
+        	<h3>您还没有写下真心话哦~</h3>
+        </div>
+        <div class="tkbtn clearfix">
+            <a class="knowbtn"><img src="../Public/Images/foolsday/btn2.png" /></a>
+        </div>
+    </div>
+	</div>
+</div>
+<!--最多只能写5个小秘密哦~~-->
+<div class="tmbg" id="tk3" style="display:none;position:fixed">
+	<div class="tank">
+	<div class="tankif">
+    	<div class="tanknr">
+        	<img src="../Public/Images/foolsday/tkbg1.png" />
+        	<h3>最多只能写5个小秘密哦~</h3>
+        </div>
+        <div class="tkbtn clearfix">
+            <a class="knowbtn"><img src="../Public/Images/foolsday/btn2.png" /></a>
+        </div>
+    </div>
+	</div>
+</div>
+<!--快告诉我这些话是真是假~-->
+<div class="tmbg" id="tk4" style="display:none;position:fixed">
+  <div class="tank">
+    <div class="tankif">
+      <div class="tanknr"> <img src="../Public/Images/foolsday/tkbg1.png" />
+        <h3>快告诉我这些话是真是假~</h3>
+      </div>
+      <div class="tkbtn clearfix"> <a class="knowbtn"><img src="../Public/Images/foolsday/btn2.png" /></a> </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrapbox">
+   <div class="banner"><img src="../Public/Images/foolsday/fooltip.png" /></div>
+   <div class="foolbg">
+   		<div class="foolbox">
+        	<ul class="ulfool ulshow1 clearfix">
+            </ul>
+        </div>
+        <div class="inputbox clearfix">
+        	<input type="text" placeholder="朕自己写…（限10字以内哦）"  />
+            <a class="surebtn"></a>
+        </div>
+        <div class="choosebox clearfix">
+        	<span class="sp1">我今天没刷牙<em></em></span><span class="sp1">我唱歌真好听<em></em></span>
+            <span class="sp2">我喜欢朋友圈的一个人<em></em></span>
+            <span class="sp3">我怀孕了<em></em></span>
+            <span class="sp3">我要结婚了<em></em></span>
+            <span class="sp3">我爱吃香菜<em></em></span>
+        </div>
+   </div>
+   <div class="btnbox">
+   	 <div class="btnbg">
+     	 <a class="setbtn"><img src="../Public/Images/foolsday/btn1.png" /></a>
+     </div>
+   </div>
+</div>
+<!--设置真假-->
+<div class="wrapbox" style="display:none;">
+  <div class="banner" style="padding-top:1.4rem;padding-bottom:0.3rem"><img src="../Public/Images/foolsday/fooltip2.png" /></div>
+  <div class="foolbg">
+    <div class="foolbox" style="height:auto;">
+      <ul class="ulfool ulshow2 clearfix">
+      </ul>
+    </div>
+  </div>
+  <div class="setbox"> <a class="setbtn2"><img src="../Public/Images/foolsday/btn5.png" /></a> </div>
+</div>
+<!--确定真假-->
+<div class="wrapbox" style="display:none;">
+   <div class="banner" style="padding-top:1.7rem;padding-bottom:0.4rem"><img src="../Public/Images/foolsday/fooltip3.png" /></div>
+   <div class="foolbg">
+   		<div class="foolbox" style="height:auto;">
+        	<ul class="ulfool ulshow3 clearfix">
+            </ul>
+        </div>
+   </div>
+   <div class="setbox">
+   		<a class="fxbtn"><img src="../Public/Images/foolsday/btn6.png" /></a>
+   </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,242 @@
+<html lang="zh-cn" class="no-js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <title>浙江电信</title>
+    <link rel="stylesheet" type="text/css" href="../Public/Css/base.css">
+    <link rel="stylesheet" type="text/css" href="../Public/Css/foolsday/foolsday.css">
+</head>
+<style type="text/css">
+    html{font-size:50px}
+</style>
+<script src="../Public/Js/jquery-1.10.2.min.js"></script>
+<script src="../Public/Js/foolsday/rem.js"></script>
+<script src="../Public/Js/foolsday/vue.js"></script>
+<script src="../Public/Js/foolsday/vue-resource.min.js"></script>
+
+<script type="text/javascript">
+    window.onload=function(){
+        var wh=$(window).height();
+        var wraph=$('.wrapbox').height();
+        if(wh>wraph){
+            $('.btnbox').css('position','fixed');
+            $('.btnbox').css('bottom','0');
+        }else{
+            $('.btnbox').css('margin-top','0.2rem');
+        }
+        var mydata={
+            choosebox:[
+                {text:"我今天没刷牙",show:false},
+                {text:"我唱歌真好听",show:false},
+                {text:"我喜欢朋友圈的一个人",show:false},
+                {text:"我怀孕了",show:false},
+                {text:"我要结婚了",show:false},
+                {text:"我爱吃香菜",show:false},
+            ]
+        }
+        Vue.component('todo-item',{
+            template: '<li><span>{{ title }}</span><em class="closebtn" v-on:click="$emit(\'remove\')"></em></li>',
+            props: ['title']
+        });
+
+        var foolbg=new Vue({
+            el:'.wrapbox',
+            data:{
+                bannerurl:'../Public/Images/foolsday/fooltip.png',
+                ulfool:'',
+                inputval:'',
+                isonit:0,
+                current:'',
+                sp1:'sp1',
+                chooseul:{
+                    choosemsg:mydata.choosebox,
+                    nowmsg:''
+                },
+                newchoose:JSON.parse(window.localStorage.getItem('showlist') || '[]'),
+                mysecret:'',
+                newitem:'',
+                //输入框内容
+                secretinput:'',
+                inputsecret:null,
+                name:'jsj'
+
+            },
+            watch:{
+                //监听输入框变化
+                yoursecret:{
+                    handler:function(val,oldval){
+                        console.log(this.$refs.yoursecret.value);
+                    },
+                    deep:true
+                },
+                newchoose:{
+                    handler:function(items){
+                        console.log(JSON.stringify(items))
+                        window.localStorage.setItem('showlist', JSON.stringify(items))
+                    }
+                }
+            },
+            created:function(){
+
+            },
+            methods:{
+                getCode:function(index){
+                    var _this=this;
+                    for(i in mydata.choosebox){
+                        mydata.choosebox[i]['show']=false;
+                        //$(e.target).html() 与text()
+                        //if(mydata.choosebox[i]['text']==$(e.target).text()){
+                            //console.log(mydata.choosebox[i]['text'])
+                       // }
+                    }
+                    mydata.choosebox[index]['show']=!mydata.choosebox[index]['show'];
+                    var new_length=this.newchoose.length;
+                    if(new_length<5){
+                        _this.newchoose.push({text:mydata.choosebox[index]['text']});
+                        _this.newchoose=_this.newchoose.uniqueText();
+                        //console.log(_this.newchoose)
+                    }else{
+                        //console.log(_this.newchoose);
+                        showdemo($('#tk3'));
+                    }
+                },
+                submit:function(){
+                    //用v-model绑定input
+//                  this.inputsecret = this.secretinput
+                    //用ref标识input,获取input值 this.$refs
+                    //this.inputsecret= this.$refs.yoursecret.value;
+                    var new_length=this.newchoose.length;
+                    if(new_length<5){
+                        //输入框不能为空
+                        if(this.mysecret==''){
+                            console.log('输入框不能为空');
+                        }else{
+                            console.log(this.inputsecret);
+                            this.newchoose.push({text:this.mysecret});
+                            this.newchoose=this.newchoose.uniqueText();
+                            this.mysecret='';
+                        }
+                    }else{
+                        showdemo($('#tk3'));
+                        //console.log(this.newchoose);
+                    }
+                    //console.log(this.newchoose);
+                },
+                setfool:function(){
+                    var _sel=this;
+//                    this.$http.post('makesure.html', {
+//                        param:{
+//                            name:_sel.name
+//                        }
+//                    }).then(function(result){
+//                        console.log(result.data[0]['name']);
+//                    },function(response){
+//                        console.info(response);
+//                    })
+                    this.$http.post('../Public/Js/foolsday/tsconfig.json', {name: _sel.name}).then(function(result){
+                        console.log(result.data[0]['name']);
+                    },function(response){
+                        console.info(response);
+                    })
+                },
+                setsecret:function(){
+                    var _sel=this;
+                    var code='';
+                    for(i in _sel.newchoose){
+                       code=code+'|'+ _sel.newchoose[i]['text']
+                    }
+                    console.log(code);
+                    //encodeURI()编码加码
+                    code=encodeURI(code.substr(1));
+                    window.location.href="secretnew_url.html?msg="+code;
+
+
+                }
+            }
+
+        })
+
+
+    }
+    //数组去重 方法
+    Array.prototype.uniqueText =function () {
+        var res = [];
+        var json = [];
+        if (this.length > 0) {
+            for (var i = 0; i < this.length; i++) {
+                if (!json[this[i]['text']]) {
+                    res.push({text: this[i]['text']});
+                    json[this[i]['text']] = 1;
+                }
+            }
+        }
+        return res;
+    }
+    $(function(){
+
+
+
+        $('.knowbtn,.tmbg').click(function(event){
+            $('.tmbg').hide();
+        });
+        $(".tank").click(function (event) {
+            event.stopPropagation();//阻止事件向上冒泡
+        });
+
+    })
+    //浮层显示
+    function showdemo(obj){
+        $(".tmbg").hide();
+        obj.show();
+        var screenHeight = $(window).height();
+        var tankuangHeight =obj.find('.tank').height();
+        var topHeight =(screenHeight-tankuangHeight)/2;
+        obj.height(screenHeight);
+        obj.children().css('top',topHeight);
+    }
+
+</script>
+<body>
+<!--最多只能写5个小秘密哦~~-->
+<div class="tmbg" id="tk3" style="display:none;position:fixed">
+    <div class="tank">
+        <div class="tankif">
+            <div class="tanknr">
+                <img src="../Public/Images/foolsday/tkbg1.png" />
+                <h3>最多只能写5个小秘密哦~</h3>
+            </div>
+            <div class="tkbtn clearfix">
+                <a class="knowbtn"><img src="../Public/Images/foolsday/btn2.png" /></a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="wrapbox">
+    <div class="banner"><img v-bind:src="bannerurl" /></div>
+    <div class="foolbg">
+        <div class="foolbox">
+            <ul class="ulfool clearfix">
+                <li is="todo-item" v-for="(item,index) in newchoose" v-bind:key="item.id" v-bind:title="item.text" v-on:remove="newchoose.splice(index,1)"></li>
+            </ul>
+        </div>
+        <div class="inputbox clearfix">
+           <!--<input type="text" placeholder="朕自己写…（限10字以内哦）" v-model="secretinput"/>-->
+            <input type="text" placeholder="朕自己写…（限10字以内哦）" ref="yoursecret" v-model="mysecret"/>
+            <a class="surebtn" @click="submit"></a>
+        </div>
+
+        <div class="choosebox clearfix">
+            <span class="sp1" v-bind:class="{choose:item.show}" v-for="(item,index) in chooseul.choosemsg" @click="getCode(index)">{{item.text}}<em></em></span>
+
+        </div>
+
+    </div>
+    <div class="btnbox">
+        <div class="btnbg">
+            <!--<a class="setbtn" @click="setfool"><img src="../Public/Images/foolsday/btn1.png" /></a>-->
+            <a class="setbtn" @click="setsecret"><img src="../Public/Images/foolsday/btn1.png" /></a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
